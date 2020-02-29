@@ -1,6 +1,6 @@
-package com.fabioqmarsiaj.estore.resources;
+package com.fabioqmarsiaj.estore.resources.exceptions;
 
-import com.fabioqmarsiaj.estore.services.CategoryNotFoundException;
+import com.fabioqmarsiaj.estore.services.exceptions.CategoryNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -2,7 +2,7 @@ package com.fabioqmarsiaj.estore.services;
 
 import com.fabioqmarsiaj.estore.domain.Category;
 import com.fabioqmarsiaj.estore.repositories.CategoryRepository;
-import org.hibernate.ObjectNotFoundException;
+import com.fabioqmarsiaj.estore.services.exceptions.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;

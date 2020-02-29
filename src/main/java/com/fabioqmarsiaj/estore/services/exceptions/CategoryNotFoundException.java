@@ -1,4 +1,4 @@
-package com.fabioqmarsiaj.estore.services;
+package com.fabioqmarsiaj.estore.services.exceptions;
 
 public class CategoryNotFoundException extends RuntimeException{
 

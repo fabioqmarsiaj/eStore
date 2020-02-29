@@ -1,4 +1,4 @@
-package com.fabioqmarsiaj.estore.resources;
+package com.fabioqmarsiaj.estore.resources.exceptions;
 
 import java.io.Serializable;
 
