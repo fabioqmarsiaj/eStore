@@ -2,6 +2,7 @@ image: java:8
 
 stages:
   - build
+  - deploy
 
 before_script:
   - chmod +x mvnw
@@ -12,3 +13,11 @@ build:
   artifacts:
     paths:
       - target/estore-0.0.1-SNAPSHOT.jar
+
+deploy:
+ stage: deploy
+ only:
+ - master
+ script:
+ - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/erpestore.git
+ - git push -f heroku master
