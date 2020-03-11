@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -28,6 +28,12 @@ public class EstoreApplication implements CommandLineRunner {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(EstoreApplication.class, args);
@@ -78,5 +84,22 @@ public class EstoreApplication implements CommandLineRunner {
 
         clientRepository.saveAll(Arrays.asList(client1));
         addressRepository.saveAll(Arrays.asList(ad1, ad2));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Order order1 = new Order(null, sdf.parse("30/09/2017 10:32"), client1, ad1);
+        Order order2 = new Order(null, sdf.parse("10/10/2017 19:35"), client1, ad2);
+
+        client1.getOrders().addAll(Arrays.asList(order1, order2));
+
+        Payment paym1 = new CardPayment(null, PaymentState.FINISHED, order1, 6);
+        order1.setPayment(paym1);
+
+        Payment paym2 = new PaymentSlip(null, PaymentState.WAITING, order2, sdf.parse("20/10/2017 00:00"), null);
+        order2.setPayment(paym2);
+
+        orderRepository.saveAll(Arrays.asList(order1, order2));
+        paymentRepository.saveAll(Arrays.asList(paym1, paym2));
+
     }
 }
