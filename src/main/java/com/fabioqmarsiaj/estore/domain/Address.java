@@ -1,5 +1,7 @@
 package com.fabioqmarsiaj.estore.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,7 @@ public class Address {
     private String neighboor;
     private String zipCode;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;

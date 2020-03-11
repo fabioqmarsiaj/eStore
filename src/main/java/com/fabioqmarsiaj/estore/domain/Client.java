@@ -1,5 +1,7 @@
 package com.fabioqmarsiaj.estore.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,6 +27,7 @@ public class Client implements Serializable {
     private String cpfOrCnpj;
     private Integer type;
 
+    @JsonManagedReference
     @OneToMany(mappedBy="client")
     private List<Address> addresses = new ArrayList<>();
 
@@ -76,15 +79,15 @@ public class Client implements Serializable {
         this.cpfOrCnpj = cpfOuCnpj;
     }
 
-    public ClientType getTipo() {
+    public ClientType getType() {
         return ClientType.toEnum(type);
     }
 
-    public void setTipo(ClientType tipo) {
+    public void setType(ClientType tipo) {
         this.type = tipo.getCod();
     }
 
-    public List<Address> getEnderecos() {
+    public List<Address> getAddresses() {
         return addresses;
     }
 

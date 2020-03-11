@@ -71,7 +71,7 @@ public class EstoreApplication implements CommandLineRunner {
         Address ad1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", client1, c1);
         Address ad2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", client1, c2);
 
-        client1.getEnderecos().addAll(Arrays.asList(ad1, ad2));
+        client1.getAddresses().addAll(Arrays.asList(ad1, ad2));
 
         stateRepository.saveAll(Arrays.asList(s1, s2));
         cityRepository.saveAll(Arrays.asList(c1, c2));
