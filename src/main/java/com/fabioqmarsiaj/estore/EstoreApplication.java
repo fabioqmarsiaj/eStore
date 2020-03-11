@@ -1,13 +1,7 @@
 package com.fabioqmarsiaj.estore;
 
-import com.fabioqmarsiaj.estore.domain.Category;
-import com.fabioqmarsiaj.estore.domain.City;
-import com.fabioqmarsiaj.estore.domain.Product;
-import com.fabioqmarsiaj.estore.domain.State;
-import com.fabioqmarsiaj.estore.repositories.CategoryRepository;
-import com.fabioqmarsiaj.estore.repositories.CityRepository;
-import com.fabioqmarsiaj.estore.repositories.ProductRepository;
-import com.fabioqmarsiaj.estore.repositories.StateRepository;
+import com.fabioqmarsiaj.estore.domain.*;
+import com.fabioqmarsiaj.estore.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +22,12 @@ public class EstoreApplication implements CommandLineRunner {
 
     @Autowired
     private CityRepository cityRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(EstoreApplication.class, args);
@@ -65,7 +65,18 @@ public class EstoreApplication implements CommandLineRunner {
         s1.getCities().addAll(Arrays.asList(c1));
         s2.getCities().addAll(Arrays.asList(c2));
 
+        Client client1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", ClientType.NATURALPERSON);
+        client1.getPhones().addAll(Arrays.asList("27363323", "93838393"));
+
+        Address ad1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", client1, c1);
+        Address ad2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", client1, c2);
+
+        client1.getEnderecos().addAll(Arrays.asList(ad1, ad2));
+
         stateRepository.saveAll(Arrays.asList(s1, s2));
         cityRepository.saveAll(Arrays.asList(c1, c2));
+
+        clientRepository.saveAll(Arrays.asList(client1));
+        addressRepository.saveAll(Arrays.asList(ad1, ad2));
     }
 }
