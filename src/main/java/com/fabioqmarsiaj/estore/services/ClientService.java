@@ -1,7 +1,8 @@
-package com.fabioqmarsiaj.estore.services.exceptions;
+package com.fabioqmarsiaj.estore.services;
 
 import com.fabioqmarsiaj.estore.domain.Client;
 import com.fabioqmarsiaj.estore.repositories.ClientRepository;
+import com.fabioqmarsiaj.estore.services.exceptions.ClientNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

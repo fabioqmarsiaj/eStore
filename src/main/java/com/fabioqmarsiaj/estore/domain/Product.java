@@ -1,6 +1,7 @@
 package com.fabioqmarsiaj.estore.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.aspectj.weaver.ast.Or;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Product implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "category_id", referencedColumnName = "id")})
     private List<Category> categories = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "id.product")
     private Set<OrderItem> itens = new HashSet<>();
 
@@ -37,6 +39,7 @@ public class Product implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public List<Order> getOrders(){
         List<Order> orders = new ArrayList<>();
         for(OrderItem orderItem : itens){

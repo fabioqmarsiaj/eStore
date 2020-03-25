@@ -1,5 +1,7 @@
 package com.fabioqmarsiaj.estore.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,6 +16,7 @@ public abstract class Payment implements Serializable {
     private Integer id;
     private Integer paymentState;
 
+    @JsonBackReference
     @JoinColumn(name = "order_id")
     @OneToOne
     @MapsId
