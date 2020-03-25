@@ -35,6 +35,9 @@ public class EstoreApplication implements CommandLineRunner {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(EstoreApplication.class, args);
     }
@@ -100,6 +103,19 @@ public class EstoreApplication implements CommandLineRunner {
 
         orderRepository.saveAll(Arrays.asList(order1, order2));
         paymentRepository.saveAll(Arrays.asList(paym1, paym2));
+
+        OrderItem oI1 = new OrderItem(order1, prod1, 0.0, 1, 2000.0);
+        OrderItem oI2 = new OrderItem(order1, prod3, 0.0, 2, 80.0);
+        OrderItem oI3 = new OrderItem(order2, prod2, 100.0, 1, 800.0);
+
+        order1.getItens().addAll(Arrays.asList(oI1, oI2));
+        order2.getItens().addAll(Arrays.asList(oI3));
+
+        prod1.getItens().addAll(Arrays.asList(oI1));
+        prod2.getItens().addAll(Arrays.asList(oI3));
+        prod3.getItens().addAll(Arrays.asList(oI2));
+
+        orderItemRepository.saveAll(Arrays.asList(oI1, oI2, oI3));
 
     }
 }

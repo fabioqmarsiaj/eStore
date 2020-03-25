@@ -2,8 +2,7 @@ package com.fabioqmarsiaj.estore.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name="TB_ORDER")
@@ -28,6 +27,9 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address addressToDeliver;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> itens = new HashSet<>();
 
     public Order(){}
 
@@ -77,6 +79,18 @@ public class Order implements Serializable {
 
     public void setAddressToDeliver(Address addressToDeliver) {
         this.addressToDeliver = addressToDeliver;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Set<OrderItem> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<OrderItem> itens) {
+        this.itens = itens;
     }
 
     @Override
