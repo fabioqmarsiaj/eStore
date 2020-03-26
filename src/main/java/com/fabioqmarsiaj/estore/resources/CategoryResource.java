@@ -29,4 +29,11 @@ public class CategoryResource {
 
         return ResponseEntity.created(uri).build();
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Void> update(@RequestBody Category category, @PathVariable Integer id){
+        category.setId(id);
+        categoryService.update(category);
+        return ResponseEntity.noContent().build();
+    }
 }
