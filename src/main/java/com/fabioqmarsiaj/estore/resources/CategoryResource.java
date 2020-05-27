@@ -2,11 +2,13 @@ package com.fabioqmarsiaj.estore.resources;
 
 import com.fabioqmarsiaj.estore.domain.Category;
 import com.fabioqmarsiaj.estore.services.CategoryService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="/categories")
@@ -18,6 +20,11 @@ public class CategoryResource {
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Category> find(@PathVariable Integer id){
         return ResponseEntity.ok().body(categoryService.find(id));
+    }
+
+    @RequestMapping(value="/list", method = RequestMethod.GET)
+    public ResponseEntity<List<Category>> getCategories(){
+        return ResponseEntity.ok().body(categoryService.findAll());
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -34,6 +41,12 @@ public class CategoryResource {
     public ResponseEntity<Void> update(@RequestBody Category category, @PathVariable Integer id){
         category.setId(id);
         categoryService.update(category);
+        return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable Integer id){
+        categoryService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

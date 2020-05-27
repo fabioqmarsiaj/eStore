@@ -3,10 +3,13 @@ package com.fabioqmarsiaj.estore.services;
 import com.fabioqmarsiaj.estore.domain.Category;
 import com.fabioqmarsiaj.estore.repositories.CategoryRepository;
 import com.fabioqmarsiaj.estore.services.exceptions.CategoryNotFoundException;
+import com.fabioqmarsiaj.estore.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +33,21 @@ public class CategoryService {
     public Category update(Category category) {
         find(category.getId());
         return categoryRepository.save(category);
+    }
+
+    public void delete(Integer id) {
+        find(id);
+
+        try{
+            categoryRepository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DataIntegrityException("It's not possible to delete categories associated with products.");
+        }
+
+    }
+
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 }
