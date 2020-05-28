@@ -47,6 +47,11 @@ public class EstoreApplication implements CommandLineRunner {
 
         Category cat1 = new Category(null, "Informatics");
         Category cat2 = new Category(null, "Office");
+        Category cat3 = new Category(null, "Eletronics");
+        Category cat4 = new Category(null, "Mobile");
+        Category cat5 = new Category(null, "Books");
+        Category cat6 = new Category(null, "House");
+        Category cat7 = new Category(null, "Gaming");
 
         Product prod1 = new Product(null, "Computer", 2000.0);
         Product prod2 = new Product(null, "Scanner", 800.0);
@@ -68,7 +73,7 @@ public class EstoreApplication implements CommandLineRunner {
 
         prod3.getCategories().addAll(Arrays.asList(cat1));
 
-        categoryRepository.saveAll(Arrays.asList(cat1, cat2));
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
         productRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
 
         s1.getCities().addAll(Arrays.asList(c1));

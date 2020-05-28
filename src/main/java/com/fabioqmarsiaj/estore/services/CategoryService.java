@@ -6,6 +6,9 @@ import com.fabioqmarsiaj.estore.services.exceptions.CategoryNotFoundException;
 import com.fabioqmarsiaj.estore.services.exceptions.DataIntegrityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -49,5 +52,11 @@ public class CategoryService {
 
     public List<Category> findAll() {
         return categoryRepository.findAll();
+    }
+
+    public Page<Category> findPage(Integer page, Integer linesPerPage, String direction, String orderBy){
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+
+        return categoryRepository.findAll(pageRequest);
     }
 }
