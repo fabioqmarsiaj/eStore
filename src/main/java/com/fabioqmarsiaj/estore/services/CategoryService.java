@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +34,9 @@ public class CategoryService {
     }
 
     public Category update(Category category) {
-        find(category.getId());
-        return categoryRepository.save(category);
+        Category newCategory = find(category.getId());
+        updateData(newCategory, category);
+        return categoryRepository.save(newCategory);
     }
 
     public void delete(Integer id) {
@@ -61,5 +63,9 @@ public class CategoryService {
 
     public Category fromDTO(CategoryDTO categoryDTO){
         return new Category(categoryDTO.getId(), categoryDTO.getName());
+    }
+
+    private void updateData(Category newCategory, Category category) {
+        newCategory.setName(category.getName());
     }
 }
