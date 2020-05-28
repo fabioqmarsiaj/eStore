@@ -21,6 +21,17 @@ public class CategoryResource {
     @Autowired
     private CategoryService categoryService;
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO categoryDTO){
+        Category category= categoryService.fromDTO(categoryDTO);
+        category =  categoryService.insert(category);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(category.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
+    }
+
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Category> find(@PathVariable Integer id){
         return ResponseEntity.ok().body(categoryService.find(id));
@@ -32,17 +43,6 @@ public class CategoryResource {
 
         List<CategoryDTO> listDTO = convertListToDTO(list);
         return ResponseEntity.ok().body(listDTO);
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody CategoryDTO categoryDTO){
-        Category category= categoryService.fromDTO(categoryDTO);
-        category =  categoryService.insert(category);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(category.getId()).toUri();
-
-        return ResponseEntity.created(uri).build();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
