@@ -1,6 +1,7 @@
 package com.fabioqmarsiaj.estore.services;
 
 import com.fabioqmarsiaj.estore.domain.Category;
+import com.fabioqmarsiaj.estore.dto.CategoryDTO;
 import com.fabioqmarsiaj.estore.repositories.CategoryRepository;
 import com.fabioqmarsiaj.estore.services.exceptions.CategoryNotFoundException;
 import com.fabioqmarsiaj.estore.services.exceptions.DataIntegrityException;
@@ -10,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,5 +57,9 @@ public class CategoryService {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
 
         return categoryRepository.findAll(pageRequest);
+    }
+
+    public Category fromDTO(CategoryDTO categoryDTO){
+        return new Category(categoryDTO.getId(), categoryDTO.getName());
     }
 }
