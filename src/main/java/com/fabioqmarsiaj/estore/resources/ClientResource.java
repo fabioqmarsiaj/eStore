@@ -2,30 +2,44 @@ package com.fabioqmarsiaj.estore.resources;
 
 import com.fabioqmarsiaj.estore.domain.Client;
 import com.fabioqmarsiaj.estore.dto.ClientDTO;
+import com.fabioqmarsiaj.estore.dto.NewClientDTO;
 import com.fabioqmarsiaj.estore.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value="/clients")
+@RequestMapping(value = "/clients")
 public class ClientResource {
 
     @Autowired
     private ClientService clientService;
 
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Client> find(@PathVariable Integer id){
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Client> find(@PathVariable Integer id) {
         return ResponseEntity.ok().body(clientService.find(id));
     }
 
-    @RequestMapping(value="/", method = RequestMethod.GET)
-    public ResponseEntity<List<ClientDTO>> listAll(){
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Void> insert(@Valid @RequestBody NewClientDTO newClientDTO) {
+        Client client = clientService.fromDTO(newClientDTO);
+        client = clientService.insert(client);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(client.getId()).toUri();
+
+        return ResponseEntity.created(uri).build();
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<List<ClientDTO>> listAll() {
         List<Client> list = clientService.findAll();
 
         List<ClientDTO> listDTO = convertListToDTO(list);
@@ -33,7 +47,7 @@ public class ClientResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO clientDTO, @PathVariable Integer id){
+    public ResponseEntity<Void> update(@Valid @RequestBody ClientDTO clientDTO, @PathVariable Integer id) {
         Client client = clientService.fromDTO(clientDTO);
         client.setId(id);
         clientService.update(client);
@@ -41,16 +55,16 @@ public class ClientResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         clientService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value="/page", method = RequestMethod.GET)
+    @RequestMapping(value = "/page", method = RequestMethod.GET)
     public ResponseEntity<Page<ClientDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
-                                                      @RequestParam(value = "linesPerpAGE", defaultValue = "24") Integer linesPerPage,
-                                                      @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-                                                      @RequestParam(value = "orderBy", defaultValue = "name") String orderBy){
+                                                    @RequestParam(value = "linesPerpAGE", defaultValue = "24") Integer linesPerPage,
+                                                    @RequestParam(value = "direction", defaultValue = "ASC") String direction,
+                                                    @RequestParam(value = "orderBy", defaultValue = "name") String orderBy) {
         Page<Client> list = clientService.findPage(page, linesPerPage, direction, orderBy);
 
         Page<ClientDTO> listDTO = convertPageToDTO(list);
