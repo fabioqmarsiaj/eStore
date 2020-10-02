@@ -1,12 +1,14 @@
 package com.fabioqmarsiaj.estore.dto;
 
 import com.fabioqmarsiaj.estore.domain.Client;
+import com.fabioqmarsiaj.estore.services.validation.UpdateClient;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@UpdateClient
 public class ClientDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +26,7 @@ public class ClientDTO implements Serializable {
     public ClientDTO() {
     }
 
-    public ClientDTO(Client client){
+    public ClientDTO(Client client) {
         id = client.getId();
         name = client.getName();
         email = client.getEmail();
