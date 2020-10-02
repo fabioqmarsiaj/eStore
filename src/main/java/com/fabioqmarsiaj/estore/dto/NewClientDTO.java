@@ -1,22 +1,39 @@
 package com.fabioqmarsiaj.estore.dto;
 
+import com.fabioqmarsiaj.estore.services.validation.InsertClient;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@InsertClient
 public class NewClientDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @NotEmpty(message = "Required")
+    @Length(min = 5, max = 120, message = "The size must be between 5 - 120 characters")
     private String name;
+
+    @NotEmpty(message = "Required")
+    @Email(message = "Invalid email")
     private String email;
+
+    @NotEmpty(message = "Required")
     private String cpfOrCnpj;
     private Integer type;
 
+    @NotEmpty(message = "Required")
     private String street;
+    @NotEmpty(message = "Required")
     private String number;
     private String complement;
     private String neighboor;
+    @NotEmpty(message = "Required")
     private String zipCode;
 
+    @NotEmpty(message = "Required")
     private String phone1;
     private String phone2;
     private String phone3;
