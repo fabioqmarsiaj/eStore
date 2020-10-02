@@ -1,9 +1,12 @@
 package com.fabioqmarsiaj.estore.services.validation;
 
+import com.fabioqmarsiaj.estore.domain.Client;
 import com.fabioqmarsiaj.estore.domain.ClientType;
 import com.fabioqmarsiaj.estore.dto.NewClientDTO;
+import com.fabioqmarsiaj.estore.repositories.ClientRepository;
 import com.fabioqmarsiaj.estore.resources.exceptions.FieldMessage;
 import com.fabioqmarsiaj.estore.services.validation.utils.BR;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -11,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InsertClientValidator implements ConstraintValidator<InsertClient, NewClientDTO> {
+
+    @Autowired
+    private ClientRepository repo;
+
     @Override
     public void initialize(InsertClient ann) {
     }
@@ -27,6 +34,11 @@ public class InsertClientValidator implements ConstraintValidator<InsertClient, 
         if (objDto.getType().equals(ClientType.LEGALPERSON.getCod())
                 && !BR.isValidCNPJ(objDto.getCpfOrCnpj())) {
             list.add(new FieldMessage("CpfOrCnpj", "Invalid CNPJ."));
+        }
+
+        Client aux = repo.findByEmail(objDto.getEmail());
+        if (aux != null) {
+            list.add(new FieldMessage("email", "Email already used."));
         }
 
         for (FieldMessage e : list) {
